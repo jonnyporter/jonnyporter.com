@@ -1,0 +1,41 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  background: #333;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul li {
+  margin: 0;
+}
+
+nav ul li a {
+  display: block;
+  padding: 15px 20px;
+  color: white;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  background: #555;
+}
+
+.container {
+  padding: 20px;
+}
+
+.placeholder {
+  margin: 20px 0;
+  padding: 20px;
+  border: 2px dashed #aaa;
+  color: #555;
+}
