@@ -104,3 +104,12 @@ nav ul li a:hover {
 .modal-buttons button:hover {
   background: #555;
 }
+
+.featured-image {
+  width: 100%; 
+  max-width: 250px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin: 20px auto;
+}

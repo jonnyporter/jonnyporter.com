@@ -4,6 +4,7 @@ const Home = () => {
   return (
     <div className="container">
       <h1>Hello, I'm Jonathan</h1>
+      <img src="/images/profile-pic.jpeg" alt="Featured Photo" className="featured-image" />
       <p>Professional SDET | Photographer</p>
       <div className="bio">
         <h2>Jonathan Porter – SDET | Photographer | Problem Solver</h2>
@@ -22,8 +23,7 @@ const Home = () => {
         tangible results from his work</strong>. With a balance of <strong>technical expertise, artistic vision, 
         and a proactive mindset</strong>, Jonathan brings a unique approach to both software quality and photography.</p>
       </div>
-      <div className="placeholder">[ Add a featured image here ]</div>
-    </div>
+      </div>
   );
 };
 
