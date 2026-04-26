@@ -5,34 +5,67 @@ import "./HeroScenePicker.css";
 
 const OPTIONS = [
   {
+    group: "Originals",
     id: "aurora",
     name: "Aurora",
     desc: "Iridescent blob, orbiting rings, sparkles.",
     thumbClass: "thumb-aurora",
   },
   {
+    group: "Originals",
     id: "aperture",
     name: "Aperture",
     desc: "Camera iris with focus marks. Photo-y.",
     thumbClass: "thumb-aperture",
   },
   {
+    group: "Originals",
     id: "constellation",
     name: "Constellation",
     desc: "Wireframe network of nodes & lines.",
     thumbClass: "thumb-constellation",
   },
   {
+    group: "Originals",
     id: "chrome",
     name: "Liquid Chrome",
     desc: "Refractive glass torus knot.",
     thumbClass: "thumb-chrome",
   },
   {
+    group: "Originals",
     id: "cosmic",
     name: "Cosmic Dust",
     desc: "Spiral galaxy of warm particles.",
     thumbClass: "thumb-cosmic",
+  },
+  {
+    group: "Hybrids (chrome + cosmic)",
+    id: "galactic",
+    name: "Galactic Core",
+    desc: "Glass knot at the eye of a spiral galaxy.",
+    thumbClass: "thumb-galactic",
+  },
+  {
+    group: "Hybrids (chrome + cosmic)",
+    id: "refracted",
+    name: "Refracted Cosmos",
+    desc: "Glass dodecahedron prismed over a particle field.",
+    thumbClass: "thumb-refracted",
+  },
+  {
+    group: "Hybrids (chrome + cosmic)",
+    id: "crystal",
+    name: "Crystal Nebula",
+    desc: "Cluster of glass crystals in warm dust.",
+    thumbClass: "thumb-crystal",
+  },
+  {
+    group: "Hybrids (chrome + cosmic)",
+    id: "orb",
+    name: "Orb & Orbit",
+    desc: "Pearly chrome sphere with a Saturn-style ring.",
+    thumbClass: "thumb-orb",
   },
 ];
 
@@ -65,20 +98,28 @@ export default function HeroScenePicker({ value, onChange }) {
               </button>
             </div>
             <div className="picker-list">
-              {OPTIONS.map((o) => (
-                <button
-                  key={o.id}
-                  className={`picker-option ${value === o.id ? "active" : ""}`}
-                  onClick={() => onChange(o.id)}
-                  data-cursor
-                >
-                  <span className={`picker-thumb ${o.thumbClass}`} />
-                  <span className="picker-meta">
-                    <span className="picker-name">{o.name}</span>
-                    <span className="picker-desc">{o.desc}</span>
-                  </span>
-                </button>
-              ))}
+              {OPTIONS.map((o, i) => {
+                const prev = OPTIONS[i - 1];
+                const showHeader = !prev || prev.group !== o.group;
+                return (
+                  <React.Fragment key={o.id}>
+                    {showHeader && (
+                      <span className="picker-group">{o.group}</span>
+                    )}
+                    <button
+                      className={`picker-option ${value === o.id ? "active" : ""}`}
+                      onClick={() => onChange(o.id)}
+                      data-cursor
+                    >
+                      <span className={`picker-thumb ${o.thumbClass}`} />
+                      <span className="picker-meta">
+                        <span className="picker-name">{o.name}</span>
+                        <span className="picker-desc">{o.desc}</span>
+                      </span>
+                    </button>
+                  </React.Fragment>
+                );
+              })}
             </div>
             <p className="picker-foot">
               Tell me which one you like and I'll strip the rest.

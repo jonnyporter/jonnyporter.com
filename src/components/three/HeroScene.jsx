@@ -6,6 +6,10 @@ import Aperture from "./scenes/Aperture.jsx";
 import Constellation from "./scenes/Constellation.jsx";
 import LiquidChrome from "./scenes/LiquidChrome.jsx";
 import CosmicDust from "./scenes/CosmicDust.jsx";
+import GalacticCore from "./scenes/GalacticCore.jsx";
+import RefractedCosmos from "./scenes/RefractedCosmos.jsx";
+import CrystalNebula from "./scenes/CrystalNebula.jsx";
+import OrbAndOrbit from "./scenes/OrbAndOrbit.jsx";
 
 const SCENES = {
   aurora: Aurora,
@@ -13,6 +17,10 @@ const SCENES = {
   constellation: Constellation,
   chrome: LiquidChrome,
   cosmic: CosmicDust,
+  galactic: GalacticCore,
+  refracted: RefractedCosmos,
+  crystal: CrystalNebula,
+  orb: OrbAndOrbit,
 };
 
 export default function HeroScene({ variant = "aurora" }) {
