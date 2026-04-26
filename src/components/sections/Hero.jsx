@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDownRight, Camera, Code2 } from "lucide-react";
 import HeroScene from "../three/HeroScene.jsx";
-import HeroScenePicker from "../HeroScenePicker.jsx";
 import "./Hero.css";
 
 const ROLES = [
@@ -16,10 +15,6 @@ const ROLES = [
 
 export default function Hero() {
   const [roleIdx, setRoleIdx] = useState(0);
-  const [variant, setVariant] = useState(() => {
-    if (typeof window === "undefined") return "aurora";
-    return localStorage.getItem("heroVariant") || "aurora";
-  });
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -28,17 +23,11 @@ export default function Hero() {
     return () => clearInterval(id);
   }, []);
 
-  const onPickVariant = (v) => {
-    setVariant(v);
-    try { localStorage.setItem("heroVariant", v); } catch {}
-  };
-
   return (
     <section id="top" className="hero">
       <div className="hero-canvas">
-        <HeroScene variant={variant} />
+        <HeroScene />
       </div>
-      <HeroScenePicker value={variant} onChange={onPickVariant} />
       <div className="hero-vignette" />
 
       <div className="hero-content container">
