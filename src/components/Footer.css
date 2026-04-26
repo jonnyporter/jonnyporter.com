@@ -112,6 +112,15 @@
   letter-spacing: 0.05em;
 }
 
+.footer-bottom em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  letter-spacing: 0;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  margin-left: 0.25rem;
+}
+
 @media (max-width: 900px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;

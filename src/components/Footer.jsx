@@ -65,9 +65,11 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom container">
-        <span>© {year} Jonathan Porter. All frames reserved.</span>
+        <span>
+          © {year} Jonathan Porter. <em>All frames reserved.</em>
+        </span>
         <span className="footer-built">
-          Built in React + Three.js. Hosted somewhere quiet.
+          Built in React + Three.js, somewhere in Idaho.
         </span>
       </div>
     </footer>

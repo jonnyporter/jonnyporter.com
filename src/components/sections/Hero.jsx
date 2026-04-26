@@ -52,17 +52,16 @@ export default function Hero() {
             <span className="hero-word gradient-text">Jonny.</span>
           </span>
           <span className="hero-line">
-            <span className="hero-word">I test</span>
-            <span className="hero-word serif-italic">software,</span>
+            <span className="hero-word">Tests</span>
+            <span className="hero-word serif-italic">by day,</span>
           </span>
           <span className="hero-line">
-            <span className="hero-word">shoot</span>
-            <span className="hero-word serif-italic gradient-text-cool">photos,</span>
-            <span className="hero-word">and</span>
+            <span className="hero-word gradient-text-cool">photos</span>
+            <span className="hero-word serif-italic">by light,</span>
           </span>
           <span className="hero-line">
-            <span className="hero-word">build</span>
-            <span className="hero-word">apps.</span>
+            <span className="hero-word">apps</span>
+            <span className="hero-word serif-italic">on the side.</span>
           </span>
         </motion.h1>
 
@@ -111,7 +110,6 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <Stat value="4+" label="Years in QA" />
-          <Stat value="42min" label="Cut from regression" />
           <Stat value="∞" label="Bugs prevented" />
           <Stat value="∞" label="Frames captured" />
         </motion.div>

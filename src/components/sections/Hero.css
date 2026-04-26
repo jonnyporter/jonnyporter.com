@@ -101,8 +101,8 @@
   position: relative;
   display: inline-block;
   height: 1.4em;
-  min-width: 22ch;
-  overflow: hidden;
+  min-width: 26ch;
+  overflow: visible;
 }
 
 .hero-role-item {
@@ -168,7 +168,7 @@
 
 .hero-stats {
   display: grid;
-  grid-template-columns: repeat(4, auto);
+  grid-template-columns: repeat(3, auto);
   gap: 2.5rem;
   padding-top: 2rem;
   border-top: 1px solid var(--border);

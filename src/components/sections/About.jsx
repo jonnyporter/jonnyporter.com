@@ -96,27 +96,26 @@ export default function About() {
                 transition={{ duration: 0.45 }}
               >
                 <p>
-                  Going on <strong>4+ years</strong> doing QA automation. Today
-                  I'm at <strong>Bonterra</strong> writing{" "}
-                  <strong>Playwright in TypeScript</strong>, with{" "}
-                  <strong>GitHub Actions</strong> handling pre-deploy PR checks,
-                  post-deploy verification, nightly regressions, and full
-                  release runs that report into <strong>TestRail</strong>.
+                  Going on <strong>4+ years</strong> in QA automation.
+                  Day-to-day stack: <strong>Playwright</strong> in{" "}
+                  <strong>TypeScript</strong>,{" "}
+                  <strong>GitHub Actions</strong> for CI, and{" "}
+                  <strong>TestRail</strong> on the reporting side. (The
+                  specifics of what I'm testing stay at the office.)
                 </p>
                 <p>
-                  Before that I spent 3+ years at <strong>QualityLogic</strong>{" "}
-                  where I rewrote a whole Cypress suite into Playwright,
-                  built K6 load tests for a microservice workflow, and shipped
-                  Android automation in Kotlin + Espresso. The biggest win was
-                  cutting a 58-minute regression to 16 — same coverage, less
-                  staring at progress bars.
+                  Before that, three-and-change years at{" "}
+                  <strong>QualityLogic</strong> — rewrote a Cypress suite
+                  into Playwright, built K6 load tests for a microservice
+                  workflow, and shipped Android automation in Kotlin +
+                  Espresso.
                 </p>
                 <p>
                   I started in <span className="serif-italic">accessibility</span>{" "}
-                  testing (WCAG, screen readers), and before that I was in a
-                  cleanroom at Plexus QAing silicon chips and satellite boards
-                  with wires thinner than a human hair. So yes, I notice the
-                  small stuff.
+                  testing (WCAG, screen readers), and before that I was in
+                  a cleanroom at Plexus QAing silicon chips and satellite
+                  boards with wires thinner than a human hair. So yes, I
+                  notice the small stuff.
                 </p>
               </motion.div>
             ) : (

@@ -63,13 +63,13 @@ export default function Services() {
         >
           <span className="eyebrow">Photography booking</span>
           <h2 className="section-title">
-            Photo shoots,{" "}
-            <span className="serif-italic gradient-text">simply</span>{" "}
-            priced.
+            Pick a shoot, or{" "}
+            <span className="serif-italic gradient-text">cook one up</span>{" "}
+            with me.
           </h2>
           <p className="section-lede">
-            Idaho local, will travel. If none of these fit your idea, just
-            message me — happy to put together something custom.
+            Idaho local, will travel. None of these quite fit your idea?
+            Send a note — I'll put something custom together.
           </p>
         </motion.div>
 

@@ -20,17 +20,16 @@ import "./Engineer.css";
 /* ---------- Terminal ---------- */
 const SCRIPT = [
   { cmd: "npx playwright test --project=chromium", delay: 80 },
-  { out: "Running 312 tests using 6 workers", color: "dim" },
-  { out: "  ✓  auth › login + 2FA happy path (3.2s)", color: "green" },
-  { out: "  ✓  donations › recurring + one-time (5.8s)", color: "green" },
-  { out: "  ✓  reporting › export filters across roles (8.1s)", color: "green" },
-  { out: "  ✓  admin › permissions matrix (12 cases) (11.4s)", color: "green" },
-  { out: "  ✓  integrations › webhook retries + idempotency (7.3s)", color: "green" },
-  { out: "  ↳  312 passed, 0 failed  (16:08)", color: "accent" },
+  { out: "Running across 6 workers…", color: "dim" },
+  { out: "  ✓  auth › login + 2FA (3.2s)", color: "green" },
+  { out: "  ✓  forms › validation across browsers (5.8s)", color: "green" },
+  { out: "  ✓  modals › focus trap + keyboard nav (4.1s)", color: "green" },
+  { out: "  ✓  api › retry + idempotency (7.3s)", color: "green" },
+  { out: "  ✓  flows › critical path, top to tail (11.0s)", color: "green" },
+  { out: "  ↳  all green, no flakes today", color: "accent" },
   { out: "", color: "dim" },
-  { cmd: "node scripts/report-to-testrail.js --run R-2148", delay: 60 },
-  { out: "  → 312 results synced to TestRail run R-2148", color: "dim" },
-  { out: "  → release branch is green", color: "green" },
+  { cmd: "git push origin release/*", delay: 60 },
+  { out: "  → CI handles the rest", color: "dim" },
 ];
 
 function Terminal3D() {
@@ -87,7 +86,7 @@ function Terminal3D() {
         <span className="dot-x yellow" />
         <span className="dot-x green" />
         <span className="terminal-title">
-          <Terminal size={12} /> jonny@bonterra ~ /tests
+          <Terminal size={12} /> ~ /e2e
         </span>
       </div>
       <div className="terminal-body">
@@ -236,7 +235,7 @@ const TIMELINE = [
     role: "QA Engineer",
     range: "Jun 2025 – Now",
     location: "Remote",
-    note: "Playwright in TypeScript, GitHub Actions for pre-deploy PR checks, post-deploy verification, nightly regression, and full release runs reporting into TestRail. Cut a 58-minute regression workflow down to 16.",
+    note: "Playwright + TypeScript on a modern web stack, with GitHub Actions doing the heavy lifting around CI. The work itself stays inside the building.",
     tag: "current",
   },
   {
@@ -304,10 +303,8 @@ export default function Engineer() {
           >
             <Terminal3D />
             <div className="engineer-callout">
-              <span className="callout-num">58 → 16 min</span>
-              <span className="callout-label">
-                regression workflow at Bonterra
-              </span>
+              <span className="callout-num">Playwright + TS</span>
+              <span className="callout-label">stack of choice</span>
             </div>
           </motion.div>
 
@@ -320,9 +317,9 @@ export default function Engineer() {
           >
             <Pipeline />
             <p className="engineer-pipeline-note">
-              PR checks before merge, smoke tests after deploy, nightlies
-              for the long tail, and a full regression on the release
-              branch — all reporting into TestRail.
+              PR checks before merge, smoke tests after deploy,
+              nightlies for the long tail, full regressions on
+              release. Roughly the shape of a healthy QA pipeline.
             </p>
           </motion.div>
         </div>
