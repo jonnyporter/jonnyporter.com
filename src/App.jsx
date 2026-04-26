@@ -5,6 +5,7 @@ import ScrollProgress from "./components/ScrollProgress.jsx";
 import Hero from "./components/sections/Hero.jsx";
 import About from "./components/sections/About.jsx";
 import Engineer from "./components/sections/Engineer.jsx";
+import Oovra from "./components/sections/Oovra.jsx";
 import Photography from "./components/sections/Photography.jsx";
 import Services from "./components/sections/Services.jsx";
 import Contact from "./components/sections/Contact.jsx";
@@ -22,17 +23,18 @@ export default function App() {
         <Marquee
           items={[
             "Playwright",
-            "CI / CD",
-            "Test Automation",
-            "API Testing",
+            "TypeScript",
+            "GitHub Actions",
+            "TestRail",
+            "Oovra Studio",
+            "AI Integration",
             "Photography",
-            "Visual Storytelling",
-            "Quality Engineering",
             "On Location",
           ]}
         />
         <About />
         <Engineer />
+        <Oovra />
         <Marquee
           variant="reverse"
           items={[

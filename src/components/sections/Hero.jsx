@@ -5,12 +5,12 @@ import HeroScene from "../three/HeroScene.jsx";
 import "./Hero.css";
 
 const ROLES = [
-  "QA Automation Engineer",
+  "QA Engineer at Bonterra",
   "Photographer",
-  "Playwright Specialist",
-  "CI/CD Builder",
-  "Visual Storyteller",
-  "Test Strategist",
+  "Founder of Oovra",
+  "Playwright nerd",
+  "AI integration guy",
+  "Idaho-based",
 ];
 
 export default function Hero() {
@@ -37,7 +37,7 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
         >
           <span className="dot-live" />
-          <span>Available for full-time + freelance · Idaho ↔ Remote</span>
+          <span>Booking photo shoots · Taking Oovra projects · Idaho</span>
         </motion.div>
 
         <motion.h1
@@ -52,15 +52,17 @@ export default function Hero() {
             <span className="hero-word gradient-text">Jonny.</span>
           </span>
           <span className="hero-line">
-            <span className="hero-word serif-italic">I break</span>
-            <span className="hero-word">software</span>
+            <span className="hero-word">I test</span>
+            <span className="hero-word serif-italic">software,</span>
           </span>
           <span className="hero-line">
-            <span className="hero-word">so it</span>
-            <span className="hero-word serif-italic gradient-text-cool">
-              doesn't
-            </span>
-            <span className="hero-word">break you.</span>
+            <span className="hero-word">shoot</span>
+            <span className="hero-word serif-italic gradient-text-cool">photos,</span>
+            <span className="hero-word">and</span>
+          </span>
+          <span className="hero-line">
+            <span className="hero-word">build</span>
+            <span className="hero-word">apps.</span>
           </span>
         </motion.h1>
 
@@ -109,7 +111,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <Stat value="4+" label="Years in QA" />
-          <Stat value="2" label="Frameworks migrated" />
+          <Stat value="42min" label="Cut from regression" />
           <Stat value="∞" label="Bugs prevented" />
           <Stat value="∞" label="Frames captured" />
         </motion.div>

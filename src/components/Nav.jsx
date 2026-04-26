@@ -6,6 +6,7 @@ import "./Nav.css";
 const links = [
   { href: "#about", label: "About" },
   { href: "#engineer", label: "Engineer" },
+  { href: "#oovra", label: "Oovra" },
   { href: "#photography", label: "Photography" },
   { href: "#services", label: "Services" },
   { href: "#contact", label: "Contact" },

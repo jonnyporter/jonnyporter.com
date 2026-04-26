@@ -11,9 +11,9 @@ export default function Footer() {
         <div className="footer-brand">
           <div className="footer-mark">JP</div>
           <p className="footer-tagline">
-            Engineered with care.
+            Tests, photos,
             <br />
-            <span className="serif-italic">Photographed with love.</span>
+            <span className="serif-italic">and a side studio.</span>
           </p>
           <p className="footer-loc">
             <MapPin size={14} /> Meridian, Idaho
@@ -24,6 +24,7 @@ export default function Footer() {
           <h5>Sitemap</h5>
           <a href="#about">About</a>
           <a href="#engineer">Engineering</a>
+          <a href="#oovra">Oovra</a>
           <a href="#photography">Photography</a>
           <a href="#services">Services</a>
           <a href="#contact">Contact</a>
@@ -45,7 +46,7 @@ export default function Footer() {
           >
             <GithubIcon size={14} /> GitHub
           </a>
-          <a href="mailto:hello@jonnyporter.com">
+          <a href="mailto:jonny@oovra.net">
             <Mail size={14} /> Email
           </a>
         </div>
@@ -53,12 +54,12 @@ export default function Footer() {
         <div className="footer-col footer-cta">
           <h5>Currently</h5>
           <p>
-            <span className="dot" /> Building bulletproof QA at{" "}
+            <span className="dot" /> QA Engineer at{" "}
             <strong>Bonterra</strong>.
           </p>
           <p>
-            <span className="dot warm" /> Booking photography clients for{" "}
-            {year + 1 > year ? `${year}` : ""}.
+            <span className="dot warm" /> Booking photography &amp; Oovra
+            projects.
           </p>
         </div>
       </div>
@@ -66,7 +67,7 @@ export default function Footer() {
       <div className="footer-bottom container">
         <span>© {year} Jonathan Porter. All frames reserved.</span>
         <span className="footer-built">
-          Built with React, Three.js & a lot of espresso.
+          Built in React + Three.js. Hosted somewhere quiet.
         </span>
       </div>
     </footer>

@@ -62,13 +62,13 @@ export default function Photography() {
         >
           <span className="eyebrow">02 · The Photographer</span>
           <h2 className="section-title">
-            Light, time, and the in-between{" "}
-            <span className="serif-italic gradient-text">moments</span>.
+            What I'm{" "}
+            <span className="serif-italic gradient-text">looking at</span>{" "}
+            lately.
           </h2>
           <p className="section-lede">
-            A working portfolio. Idaho is home base — I'll travel for the
-            right project. Placeholder frames now; real ones are{" "}
-            <em>almost</em> developed.
+            A working portfolio. Mostly Idaho, will travel. The frames
+            here are placeholders for now — real ones are on the way.
           </p>
         </motion.div>
 
@@ -91,41 +91,30 @@ export default function Photography() {
           </div>
         </div>
 
-        <motion.div
-          layout
-          className={`photo-grid ${filter === "All" ? "bento" : ""}`}
+        <div
+          key={filter}
+          className={`photo-grid photo-grid-fade ${filter === "All" ? "bento" : ""}`}
         >
-          <AnimatePresence>
-            {filtered.map((p, idx) => (
-              <motion.button
-                layout
-                key={p.id}
-                className="photo-card"
-                style={filter === "All" ? { gridArea: p.area } : undefined}
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.4, delay: idx * 0.04 }}
-                onClick={() => open(idx)}
-                data-cursor
-                data-cursor-text="View"
-              >
-                <img
-                  src={photoUrl(p)}
-                  alt={p.title}
-                  loading="lazy"
-                />
-                <div className="photo-card-overlay">
-                  <span className="photo-card-cat">{p.category}</span>
-                  <span className="photo-card-title">{p.title}</span>
-                  <span className="photo-card-loc">
-                    <MapPin size={12} /> {p.loc}
-                  </span>
-                </div>
-              </motion.button>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+          {filtered.map((p) => (
+            <button
+              key={p.id}
+              className="photo-card"
+              style={filter === "All" ? { gridArea: p.area } : undefined}
+              onClick={() => open(filtered.indexOf(p))}
+              data-cursor
+              data-cursor-text="View"
+            >
+              <img src={photoUrl(p)} alt={p.title} loading="lazy" />
+              <div className="photo-card-overlay">
+                <span className="photo-card-cat">{p.category}</span>
+                <span className="photo-card-title">{p.title}</span>
+                <span className="photo-card-loc">
+                  <MapPin size={12} /> {p.loc}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
 
         <p className="photo-cta">
           Want to see fresh work or talk about a shoot?{" "}

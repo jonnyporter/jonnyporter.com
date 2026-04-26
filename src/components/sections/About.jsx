@@ -12,9 +12,9 @@ import "./About.css";
 
 const facts = [
   { icon: <MapPin size={16} />, label: "Based in", value: "Meridian, Idaho" },
-  { icon: <Briefcase size={16} />, label: "Currently", value: "QA Engineer @ Bonterra" },
+  { icon: <Briefcase size={16} />, label: "Day job", value: "QA Engineer @ Bonterra" },
   { icon: <GraduationCap size={16} />, label: "Code roots", value: "BoiseCodeWorks alum" },
-  { icon: <Coffee size={16} />, label: "Powered by", value: "Coffee + curiosity" },
+  { icon: <Coffee size={16} />, label: "Side studio", value: "Oovra — apps & AI" },
 ];
 
 export default function About() {
@@ -60,10 +60,10 @@ export default function About() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7 }}
           >
-            Two crafts.
+            Same brain.
             <br />
-            One <span className="serif-italic gradient-text">obsession</span>{" "}
-            with detail.
+            Different{" "}
+            <span className="serif-italic gradient-text">outputs</span>.
           </motion.h2>
 
           <div className="about-toggle">
@@ -96,27 +96,27 @@ export default function About() {
                 transition={{ duration: 0.45 }}
               >
                 <p>
-                  For <strong>4+ years</strong> I've made software safer to ship.
-                  I write end-to-end tests in <strong>Playwright</strong> and{" "}
-                  <strong>Cypress</strong>, glue them into{" "}
-                  <strong>Azure DevOps YAML pipelines</strong>, and stand up the
-                  microservice plumbing that creates and tears down test data on
-                  the fly.
+                  Going on <strong>4+ years</strong> doing QA automation. Today
+                  I'm at <strong>Bonterra</strong> writing{" "}
+                  <strong>Playwright in TypeScript</strong>, with{" "}
+                  <strong>GitHub Actions</strong> handling pre-deploy PR checks,
+                  post-deploy verification, nightly regressions, and full
+                  release runs that report into <strong>TestRail</strong>.
                 </p>
                 <p>
-                  I migrated a full Cypress suite to Playwright at{" "}
-                  <strong>QualityLogic</strong>, drove load testing in{" "}
-                  <strong>K6</strong> on a microservice workflow, built Android
-                  automation in <strong>Kotlin + Espresso</strong>, and learned
-                  how to read the room when collaborating with overseas teams.
-                  Today I do the same kind of work at{" "}
-                  <strong>Bonterra</strong>.
+                  Before that I spent 3+ years at <strong>QualityLogic</strong>{" "}
+                  where I rewrote a whole Cypress suite into Playwright,
+                  built K6 load tests for a microservice workflow, and shipped
+                  Android automation in Kotlin + Espresso. The biggest win was
+                  cutting a 58-minute regression to 16 — same coverage, less
+                  staring at progress bars.
                 </p>
                 <p>
                   I started in <span className="serif-italic">accessibility</span>{" "}
-                  testing — WCAG, screen readers, the works. That's where I
-                  learned that quality isn't just "does it work?" — it's{" "}
-                  <em>does it work for everyone?</em>
+                  testing (WCAG, screen readers), and before that I was in a
+                  cleanroom at Plexus QAing silicon chips and satellite boards
+                  with wires thinner than a human hair. So yes, I notice the
+                  small stuff.
                 </p>
               </motion.div>
             ) : (
@@ -127,21 +127,19 @@ export default function About() {
                 transition={{ duration: 0.45 }}
               >
                 <p>
-                  Photography is where the engineering brain gets to{" "}
-                  <span className="serif-italic">play</span>. Same obsession with
-                  detail, different output: instead of green check-marks, you
-                  get a frame that makes someone feel something.
+                  Photography is where I get out of my head. Same eye for
+                  detail, but the answer at the end is a frame instead of a
+                  passing test.
                 </p>
                 <p>
-                  I shoot with a soft eye for portraits, lifestyle, and the
-                  quiet moments most people walk past. Idaho light is a gift —
-                  golden hour here lasts forever — and I use it to make people
-                  feel like the main character of their own story.
+                  I shoot portraits, lifestyle, and the small stuff in
+                  between. Mostly around Idaho, and I'll travel for the right
+                  project.
                 </p>
                 <p>
-                  <strong>I'm taking on clients.</strong> Portraits, couples,
-                  events, brand work. If you're nearby (or flying me out), let's
-                  build something honest together.
+                  <strong>I'm taking clients.</strong> Portraits, couples,
+                  events, brand work — if you've got an idea (or just a
+                  vibe), send it over.
                 </p>
               </motion.div>
             )}

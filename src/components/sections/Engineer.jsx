@@ -20,18 +20,17 @@ import "./Engineer.css";
 /* ---------- Terminal ---------- */
 const SCRIPT = [
   { cmd: "npx playwright test --project=chromium", delay: 80 },
-  { out: "Running 47 tests using 4 workers", color: "dim" },
-  { out: "  ✓  auth › login with valid credentials (1.4s)", color: "green" },
-  { out: "  ✓  auth › 2FA challenge (2.1s)", color: "green" },
-  { out: "  ✓  cart › add → remove → checkout (3.8s)", color: "green" },
-  { out: "  ✓  payments › stripe webhook + refund (2.6s)", color: "green" },
-  { out: "  ✓  admin › role-based access matrix (4.2s)", color: "green" },
-  { out: "  ✓  a11y › keyboard nav across modals (1.9s)", color: "green" },
-  { out: "  ↳  47 passed, 0 failed, 0 flaky  (28.4s)", color: "accent" },
+  { out: "Running 312 tests using 6 workers", color: "dim" },
+  { out: "  ✓  auth › login + 2FA happy path (3.2s)", color: "green" },
+  { out: "  ✓  donations › recurring + one-time (5.8s)", color: "green" },
+  { out: "  ✓  reporting › export filters across roles (8.1s)", color: "green" },
+  { out: "  ✓  admin › permissions matrix (12 cases) (11.4s)", color: "green" },
+  { out: "  ✓  integrations › webhook retries + idempotency (7.3s)", color: "green" },
+  { out: "  ↳  312 passed, 0 failed  (16:08)", color: "accent" },
   { out: "", color: "dim" },
-  { cmd: "az pipelines run --name nightly-e2e", delay: 60 },
-  { out: "  → triggered run #2148 on main", color: "dim" },
-  { out: "  → all stages green ✨", color: "green" },
+  { cmd: "node scripts/report-to-testrail.js --run R-2148", delay: 60 },
+  { out: "  → 312 results synced to TestRail run R-2148", color: "dim" },
+  { out: "  → release branch is green", color: "green" },
 ];
 
 function Terminal3D() {
@@ -123,11 +122,11 @@ function Terminal3D() {
 
 /* ---------- CI Pipeline ---------- */
 const STAGES = [
-  { name: "Lint", icon: <CheckCircle2 size={14} />, dur: 1500 },
-  { name: "Build", icon: <Layers size={14} />, dur: 2000 },
-  { name: "Unit", icon: <Bot size={14} />, dur: 1800 },
-  { name: "E2E", icon: <Activity size={14} />, dur: 2500 },
-  { name: "Deploy", icon: <Zap size={14} />, dur: 1500 },
+  { name: "PR check", icon: <CheckCircle2 size={14} />, dur: 1500 },
+  { name: "Pre-deploy", icon: <Layers size={14} />, dur: 1800 },
+  { name: "Post-deploy", icon: <Activity size={14} />, dur: 2200 },
+  { name: "Nightly", icon: <Bot size={14} />, dur: 2400 },
+  { name: "Release", icon: <Zap size={14} />, dur: 1800 },
 ];
 
 function Pipeline() {
@@ -162,8 +161,8 @@ function Pipeline() {
     <div className="pipeline" ref={ref}>
       <div className="pipeline-header">
         <GitBranch size={14} />
-        <span>main · nightly-e2e</span>
-        <span className="pipeline-tag">azure-pipelines.yml</span>
+        <span>main · e2e</span>
+        <span className="pipeline-tag">.github/workflows/e2e.yml</span>
       </div>
       <div className="pipeline-track">
         {STAGES.map((s, i) => {
@@ -206,22 +205,22 @@ const SKILL_GROUPS = [
   {
     name: "Languages",
     icon: <Workflow size={16} />,
-    items: ["JavaScript", "TypeScript", "Kotlin", "C#"],
+    items: ["TypeScript", "JavaScript", "Kotlin", "C#"],
   },
   {
     name: "CI / DevOps",
     icon: <ServerCog size={16} />,
-    items: ["Azure DevOps YAML", "GitHub Actions", "Docker", "Microservice fixtures"],
+    items: ["GitHub Actions", "Azure DevOps YAML", "Docker", "Microservice fixtures"],
   },
   {
-    name: "Performance",
+    name: "Reporting & Perf",
     icon: <Zap size={16} />,
-    items: ["K6 Load Testing", "API Mocks", "Test Data Pipelines"],
+    items: ["TestRail", "K6 load testing", "API mocks", "Test data pipelines"],
   },
   {
     name: "Quality",
     icon: <Accessibility size={16} />,
-    items: ["WCAG / a11y", "Manual + Exploratory", "Test Planning"],
+    items: ["WCAG / a11y", "Manual + exploratory", "Test planning"],
   },
   {
     name: "Web & Mobile",
@@ -237,7 +236,7 @@ const TIMELINE = [
     role: "QA Engineer",
     range: "Jun 2025 – Now",
     location: "Remote",
-    note: "Designing automation strategy and building reliable test pipelines for a non-profit tech platform.",
+    note: "Playwright in TypeScript, GitHub Actions for pre-deploy PR checks, post-deploy verification, nightly regression, and full release runs reporting into TestRail. Cut a 58-minute regression workflow down to 16.",
     tag: "current",
   },
   {
@@ -245,28 +244,28 @@ const TIMELINE = [
     role: "Software QA Automation Engineer",
     range: "Jan 2022 – Jun 2025",
     location: "Boise, ID · Remote",
-    note: "Migrated full Cypress suite to Playwright. Built Azure DevOps YAML pipelines. Led K6 load testing on a microservice workflow with two teammates. Espresso/Kotlin for Android.",
+    note: "Rewrote a Cypress suite to Playwright. Built Azure DevOps YAML pipelines. Led K6 load testing on a microservice workflow with two teammates. Android automation in Kotlin + Espresso. Worked with overseas teams to ship.",
   },
   {
     company: "QualityLogic",
     role: "Accessibility Software Tester",
     range: "Nov 2021 – Jan 2022",
     location: "Boise, ID",
-    note: "WCAG audits, screen reader QA, mobile + desktop accessibility for client products.",
+    note: "WCAG audits and screen reader QA across desktop and mobile for client products.",
   },
   {
     company: "Arrow Electronics",
     role: "QA Inspector",
     range: "Nov 2020 – Jan 2021",
     location: "Phoenix, AZ",
-    note: "Hardware QA on tech shipments. Where I learned: a checklist that ships beats a perfect one that doesn't.",
+    note: "Hardware QA on tech shipments before software took over.",
   },
   {
     company: "Plexus Corp.",
-    role: "QA Inspector",
+    role: "QA Inspector (Cleanroom)",
     range: "Oct 2019 – Feb 2020",
     location: "Nampa, ID",
-    note: "SMT operation, PCB assembly. The hands-on roots of a quality mindset.",
+    note: "Cleanroom QA on silicon chips and tiny satellite boards. Wires thinner than a human hair, only visible under a microscope. Excellent training for caring about details that nobody else can see.",
   },
 ];
 
@@ -283,13 +282,15 @@ export default function Engineer() {
         >
           <span className="eyebrow">01 · The Engineer</span>
           <h2 className="section-title">
-            I make sure the green check-marks{" "}
-            <span className="serif-italic gradient-text-cool">mean</span>{" "}
-            something.
+            Four years writing the tests
+            <br />
+            <span className="serif-italic gradient-text-cool">
+              other people forgot to.
+            </span>
           </h2>
           <p className="section-lede">
-            Four-plus years turning manual test plans into automated suites
-            that actually catch bugs — not just the ones you wrote them for.
+            Most of my day job is figuring out how to run more tests, more
+            often, in less time — without losing the signal in the noise.
           </p>
         </motion.div>
 
@@ -303,8 +304,10 @@ export default function Engineer() {
           >
             <Terminal3D />
             <div className="engineer-callout">
-              <span className="callout-num">28.4s</span>
-              <span className="callout-label">to know it works</span>
+              <span className="callout-num">58 → 16 min</span>
+              <span className="callout-label">
+                regression workflow at Bonterra
+              </span>
             </div>
           </motion.div>
 
@@ -317,8 +320,9 @@ export default function Engineer() {
           >
             <Pipeline />
             <p className="engineer-pipeline-note">
-              Five stages. Zero clicks. The deploy ships itself when every
-              probe says yes.
+              PR checks before merge, smoke tests after deploy, nightlies
+              for the long tail, and a full regression on the release
+              branch — all reporting into TestRail.
             </p>
           </motion.div>
         </div>

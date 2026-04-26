@@ -5,13 +5,13 @@ import { GithubIcon, LinkedinIcon } from "../icons/SocialIcons.jsx";
 import "./Contact.css";
 
 const TOPICS = [
-  { id: "qa", label: "QA / SDET role", icon: <Code2 size={14} /> },
   { id: "shoot", label: "Photography session", icon: <Camera size={14} /> },
+  { id: "oovra", label: "Oovra: app or AI build", icon: <Code2 size={14} /> },
   { id: "other", label: "Just say hi", icon: <Send size={14} /> },
 ];
 
 export default function Contact() {
-  const [topic, setTopic] = useState("qa");
+  const [topic, setTopic] = useState("shoot");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
 
@@ -25,7 +25,7 @@ export default function Contact() {
     const body = encodeURIComponent(
       `${form.message}\n\n— ${form.name}\n${form.email}`
     );
-    window.location.href = `mailto:hello@jonnyporter.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:jonny@oovra.net?subject=${subject}&body=${body}`;
     setSent(true);
   };
 
@@ -41,18 +41,18 @@ export default function Contact() {
         >
           <span className="eyebrow">Contact</span>
           <h2 className="section-title">
-            Let's make<br />
-            <span className="serif-italic gradient-text">something</span>.
+            Say<br />
+            <span className="serif-italic gradient-text">hello</span>.
           </h2>
           <p className="contact-lede">
-            Hiring for QA / SDET? Booking a shoot? Or you just spotted a
-            bug on this very site (it happens)? Drop a line — I read every
-            message.
+            Booking a shoot? Want to talk about an Oovra project — apps,
+            AI, automations? Or you spotted a bug on this very site (it
+            happens). Drop a line.
           </p>
 
           <div className="contact-channels">
             <a
-              href="mailto:hello@jonnyporter.com"
+              href="mailto:jonny@oovra.net"
               className="channel"
               data-cursor
               data-cursor-text="Email"
@@ -60,7 +60,7 @@ export default function Contact() {
               <Mail size={18} />
               <div>
                 <span>Email</span>
-                <strong>hello@jonnyporter.com</strong>
+                <strong>jonny@oovra.net</strong>
               </div>
             </a>
             <a
@@ -96,9 +96,9 @@ export default function Contact() {
           <div className="contact-availability">
             <span className="dot" />
             <div>
-              <strong>Available now</strong>
+              <strong>Open for work</strong>
               <span>
-                For QA / SDET roles · Booking photography for the season
+                Booking photography clients · Taking new Oovra projects
               </span>
             </div>
           </div>
@@ -159,10 +159,10 @@ export default function Contact() {
               value={form.message}
               onChange={onChange("message")}
               placeholder={
-                topic === "qa"
-                  ? "Tell me about the role, stack, and team…"
-                  : topic === "shoot"
+                topic === "shoot"
                   ? "Date, location, vibe — anything you've got…"
+                  : topic === "oovra"
+                  ? "What are you building, and what's getting in the way?"
                   : "Say hello…"
               }
             />

@@ -24,7 +24,7 @@ const SERVICES = [
     icon: <Heart size={20} />,
     title: "Couples & Families",
     blurb:
-      "Honest, candid, never overdirected. The good kind of awkward.",
+      "Casual, candid, low-pressure. I'll keep the directing light.",
     bullets: ["1.5-hour session", "60+ frames", "Online gallery"],
     from: "$350",
     accent: "cool",
@@ -34,7 +34,7 @@ const SERVICES = [
     icon: <CalendarDays size={20} />,
     title: "Events",
     blurb:
-      "Engagements, parties, small weddings. I bring two cameras and quiet feet.",
+      "Engagements, parties, small weddings. Two cameras, quiet feet.",
     bullets: ["Up to 6 hours", "Full edit", "48-hour preview gallery"],
     from: "Quote",
     accent: "purple",
@@ -61,15 +61,15 @@ export default function Services() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="eyebrow">Booking</span>
+          <span className="eyebrow">Photography booking</span>
           <h2 className="section-title">
-            Let's make something{" "}
-            <span className="serif-italic gradient-text">worth keeping</span>.
+            Photo shoots,{" "}
+            <span className="serif-italic gradient-text">simply</span>{" "}
+            priced.
           </h2>
           <p className="section-lede">
-            Idaho local, will travel. Honest pricing, no upsell games. If
-            none of these fit, just message me — most great shoots start
-            with "is this even a thing you do?"
+            Idaho local, will travel. If none of these fit your idea, just
+            message me — happy to put together something custom.
           </p>
         </motion.div>
 
