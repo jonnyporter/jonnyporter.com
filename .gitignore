@@ -1,3 +1,4 @@
 ignore.txt
 /dist
 /node_modules
+/.claude
