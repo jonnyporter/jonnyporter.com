@@ -58,8 +58,9 @@ const NOTES = [
 ];
 
 function coach(settings, delta, light) {
-  const stops = Math.abs(delta);
-  const n = stops >= 9 ? "way" : `${stops.toFixed(1)} stops`;
+  const stops = Math.round(Math.abs(delta) * 10) / 10;
+  const n =
+    stops >= 9 ? "9+ stops" : `${stops} ${stops === 1 ? "stop" : "stops"}`;
   if (delta > NAILED) {
     return `Overexposed by ${n}. Try a faster shutter, a smaller aperture, or lower ISO.`;
   }
@@ -453,9 +454,13 @@ export default function Viewfinder() {
           <div className="vf-strip">
             <div className="vf-strip-head">
               <span className="vf-label">
-                Your contact sheet
-                {frames.length > 0 &&
-                  ` · ${frames.length} frame${frames.length === 1 ? "" : "s"}, ${keepers} keeper${keepers === 1 ? "" : "s"}`}
+                <span>Your contact sheet</span>
+                {frames.length > 0 && (
+                  <span className="vf-strip-count">
+                    {frames.length} frame{frames.length === 1 ? "" : "s"} ·{" "}
+                    {keepers} keeper{keepers === 1 ? "" : "s"}
+                  </span>
+                )}
               </span>
               {frames.length > 0 && (
                 <button type="button" onClick={() => setFrames([])} data-cursor>
@@ -487,8 +492,10 @@ export default function Viewfinder() {
                       <span className={`vf-frame-tag ${ok ? "ok" : ""}`}>
                         {ok ? "Keeper" : `${fmtStops(f.delta)} EV`}
                       </span>
+                      <span className="vf-frame-num">
+                        {String(f.id).padStart(2, "0")}
+                      </span>
                       <span className="vf-frame-meta">
-                        <b>{String(f.id).padStart(2, "0")}</b>
                         {fmtAperture(f.settings.ap)} · {fmtShutter(f.settings.sh)}
                       </span>
                     </button>
