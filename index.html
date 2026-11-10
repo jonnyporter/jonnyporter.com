@@ -3,18 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0a0a0f" />
+    <title>Jonny Porter — QA Engineer, Photographer &amp; Founder of Oovra</title>
     <meta name="description" content="Jonny Porter — QA Engineer at Bonterra, photographer, and founder of Oovra. Idaho-based. Booking shoots and Oovra projects." />
+    <link rel="canonical" href="https://www.jonnyporter.com/" />
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="color-scheme" content="dark" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.jonnyporter.com/" />
+    <meta property="og:site_name" content="Jonny Porter" />
     <meta property="og:title" content="Jonny Porter — QA, Photography, Oovra" />
     <meta property="og:description" content="Tests by day, photos by light, apps and AI on the side via Oovra." />
-    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.jonnyporter.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Jonny Porter — tests by day, photos by light, apps on the side." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Jonny Porter — QA, Photography, Oovra" />
+    <meta name="twitter:description" content="Tests by day, photos by light, apps and AI on the side via Oovra." />
+    <meta name="twitter:image" content="https://www.jonnyporter.com/og.png" />
 
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
 
-    <title>Jonny Porter — Engineer & Photographer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500..700&family=Inter:wght@400..600&family=JetBrains+Mono:wght@400..700&family=Instrument+Serif:ital@1&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Scroll reveals only hide content when JS is actually running. -->
+    <script>
+      document.documentElement.classList.add("js");
+      setTimeout(function () {
+        if (!window.__ready) document.documentElement.classList.remove("js");
+      }, 5000);
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Jonny Porter",
+        "alternateName": "Jonathan Porter",
+        "url": "https://www.jonnyporter.com/",
+        "image": "https://www.jonnyporter.com/images/profile-1200.webp",
+        "jobTitle": "QA Engineer",
+        "worksFor": { "@type": "Organization", "name": "Bonterra" },
+        "email": "mailto:jonny@oovra.net",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Meridian",
+          "addressRegion": "ID",
+          "addressCountry": "US"
+        },
+        "knowsAbout": [
+          "QA automation",
+          "Playwright",
+          "TypeScript",
+          "GitHub Actions",
+          "Accessibility testing",
+          "Photography"
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/jonnyporter",
+          "https://github.com/jonnyporter",
+          "https://oovra.net/"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

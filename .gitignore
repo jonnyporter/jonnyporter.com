@@ -1,4 +1,6 @@
 ignore.txt
 /dist
+/dist-ssr
 /node_modules
 /.claude
+.DS_Store

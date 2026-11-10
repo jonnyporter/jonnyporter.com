@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  Terminal,
   GitBranch,
   CheckCircle2,
   Loader2,
@@ -11,113 +9,13 @@ import {
   Bot,
   Workflow,
   Globe,
-  Smartphone,
   Accessibility,
   ServerCog,
 } from "lucide-react";
+import Reveal from "../Reveal.jsx";
+import Terminal from "./Terminal.jsx";
+import { spotlight, useInView, usePrefersReducedMotion } from "../../lib/hooks.js";
 import "./Engineer.css";
-
-/* ---------- Terminal ---------- */
-const SCRIPT = [
-  { cmd: "npx playwright test --project=chromium", delay: 80 },
-  { out: "Running across 6 workers…", color: "dim" },
-  { out: "  ✓  auth › login + 2FA (3.2s)", color: "green" },
-  { out: "  ✓  forms › validation across browsers (5.8s)", color: "green" },
-  { out: "  ✓  modals › focus trap + keyboard nav (4.1s)", color: "green" },
-  { out: "  ✓  api › retry + idempotency (7.3s)", color: "green" },
-  { out: "  ✓  flows › critical path, top to tail (11.0s)", color: "green" },
-  { out: "  ↳  all green, no flakes today", color: "accent" },
-  { out: "", color: "dim" },
-  { cmd: "git push origin release/*", delay: 60 },
-  { out: "  → CI handles the rest", color: "dim" },
-];
-
-function Terminal3D() {
-  const [visibleLines, setVisibleLines] = useState(0);
-  const [typing, setTyping] = useState("");
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: false, amount: 0.3 });
-
-  useEffect(() => {
-    if (!inView) return;
-    let active = true;
-    let i = 0;
-
-    const run = async () => {
-      // reset
-      setVisibleLines(0);
-      setTyping("");
-      await new Promise((r) => setTimeout(r, 400));
-
-      while (active && i < SCRIPT.length) {
-        const line = SCRIPT[i];
-        if (line.cmd) {
-          // typewriter effect
-          for (let j = 0; j <= line.cmd.length; j++) {
-            if (!active) return;
-            setTyping(line.cmd.slice(0, j));
-            await new Promise((r) => setTimeout(r, line.delay || 60));
-          }
-          await new Promise((r) => setTimeout(r, 300));
-          setVisibleLines(i + 1);
-          setTyping("");
-        } else {
-          await new Promise((r) => setTimeout(r, 200));
-          setVisibleLines(i + 1);
-        }
-        i++;
-      }
-
-      // pause then loop
-      await new Promise((r) => setTimeout(r, 4000));
-      if (!active) return;
-      i = 0;
-      run();
-    };
-
-    run();
-    return () => { active = false; };
-  }, [inView]);
-
-  return (
-    <div className="terminal" ref={ref}>
-      <div className="terminal-chrome">
-        <span className="dot-x red" />
-        <span className="dot-x yellow" />
-        <span className="dot-x green" />
-        <span className="terminal-title">
-          <Terminal size={12} /> ~ /e2e
-        </span>
-      </div>
-      <div className="terminal-body">
-        {SCRIPT.map((line, idx) => {
-          if (idx >= visibleLines && !(idx === visibleLines && line.cmd && typing)) return null;
-          if (line.cmd) {
-            const text = idx === visibleLines && typing ? typing : line.cmd;
-            return (
-              <div className="terminal-line" key={idx}>
-                <span className="terminal-prompt">$</span>
-                <span className="terminal-cmd">{text}</span>
-                {idx === visibleLines && typing && <span className="terminal-caret" />}
-              </div>
-            );
-          }
-          return (
-            <div className={`terminal-line out ${line.color}`} key={idx}>
-              {line.out || " "}
-            </div>
-          );
-        })}
-        {visibleLines >= SCRIPT.length && (
-          <div className="terminal-line">
-            <span className="terminal-prompt">$</span>
-            <span className="terminal-caret" />
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
 
 /* ---------- CI Pipeline ---------- */
 const STAGES = [
@@ -133,34 +31,47 @@ function Pipeline() {
   const [done, setDone] = useState([]);
   const ref = useRef(null);
   const inView = useInView(ref, { amount: 0.3 });
+  const reducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     if (!inView) return;
-    let timers = [];
-    const reset = () => { setActive(-1); setDone([]); };
+    if (reducedMotion) {
+      setActive(-1);
+      setDone(STAGES.map((_, i) => i));
+      return;
+    }
+    const timers = [];
     const start = () => {
-      reset();
+      setActive(-1);
+      setDone([]);
       let acc = 400;
       STAGES.forEach((s, i) => {
         timers.push(setTimeout(() => setActive(i), acc));
         acc += s.dur;
-        timers.push(setTimeout(() => {
-          setDone((d) => [...d, i]);
-          if (i === STAGES.length - 1) {
-            timers.push(setTimeout(start, 2500));
-          }
-        }, acc));
+        timers.push(
+          setTimeout(() => {
+            setDone((d) => [...d, i]);
+            if (i === STAGES.length - 1) {
+              timers.push(setTimeout(start, 2500));
+            }
+          }, acc)
+        );
       });
     };
     start();
-    return () => { timers.forEach(clearTimeout); };
-  }, [inView]);
+    return () => timers.forEach(clearTimeout);
+  }, [inView, reducedMotion]);
+
+  const allDone = done.length === STAGES.length;
 
   return (
     <div className="pipeline" ref={ref}>
       <div className="pipeline-header">
         <GitBranch size={14} />
         <span>main · e2e</span>
+        <span className={`pipeline-status ${allDone ? "passed" : ""}`}>
+          {allDone ? "passed" : "running"}
+        </span>
         <span className="pipeline-tag">.github/workflows/e2e.yml</span>
       </div>
       <div className="pipeline-track">
@@ -184,7 +95,7 @@ function Pipeline() {
                 )}
               </div>
               {i < STAGES.length - 1 && (
-                <div className={`stage-link ${done.includes(i) ? "done" : ""}`} />
+                <div className={`stage-link ${isDone ? "done" : ""}`} />
               )}
             </React.Fragment>
           );
@@ -272,16 +183,10 @@ export default function Engineer() {
   return (
     <section id="engineer" className="engineer">
       <div className="container">
-        <motion.div
-          className="section-head"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <Reveal className="section-head">
           <span className="eyebrow">01 · The Engineer</span>
           <h2 className="section-title">
-            Four years writing the tests
+            Five years writing the tests
             <br />
             <span className="serif-italic gradient-text-cool">
               other people forgot to.
@@ -291,58 +196,38 @@ export default function Engineer() {
             Most of my day job is figuring out how to run more tests, more
             often, in less time — without losing the signal in the noise.
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="engineer-grid">
-          <motion.div
-            className="engineer-terminal-wrap"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7 }}
-          >
-            <Terminal3D />
-            <div className="engineer-callout">
-              <span className="callout-num">Playwright + TS</span>
-              <span className="callout-label">stack of choice</span>
-            </div>
-          </motion.div>
+          <Reveal className="engineer-terminal-wrap">
+            <Terminal />
+          </Reveal>
 
-          <motion.div
-            className="engineer-pipeline-wrap"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-          >
+          <Reveal className="engineer-pipeline-wrap" delay={100}>
             <Pipeline />
             <p className="engineer-pipeline-note">
               PR checks before merge, smoke tests after deploy,
               nightlies for the long tail, full regressions on
               release. Roughly the shape of a healthy QA pipeline.
             </p>
-          </motion.div>
+            <div className="engineer-callout">
+              <span className="callout-num">Playwright + TS</span>
+              <span className="callout-label">stack of choice</span>
+            </div>
+          </Reveal>
         </div>
 
         <div className="skills-block">
-          <motion.h3
-            className="block-title"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
+          <Reveal as="h3" className="block-title">
             The toolbelt
-          </motion.h3>
+          </Reveal>
           <div className="skills-grid">
             {SKILL_GROUPS.map((g, gi) => (
-              <motion.div
-                className="skill-card"
+              <Reveal
+                className="skill-card spot"
                 key={g.name}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.45, delay: gi * 0.06 }}
+                delay={gi * 60}
+                onPointerMove={spotlight}
               >
                 <div className="skill-card-head">
                   <span className="skill-icon">{g.icon}</span>
@@ -350,54 +235,45 @@ export default function Engineer() {
                 </div>
                 <ul>
                   {g.items.map((it) => (
-                    <li key={it}>
-                      <Smartphone size={0} />
-                      <span>{it}</span>
-                    </li>
+                    <li key={it}>{it}</li>
                   ))}
                 </ul>
-              </motion.div>
+              </Reveal>
             ))}
           </div>
         </div>
 
         <div className="timeline-block">
-          <motion.h3
-            className="block-title"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
+          <Reveal as="h3" className="block-title">
             The road so far
-          </motion.h3>
+          </Reveal>
           <ol className="timeline">
             {TIMELINE.map((t, i) => (
-              <motion.li
+              <Reveal
+                as="li"
                 key={i}
                 className={`timeline-item ${t.tag === "current" ? "current" : ""}`}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
+                delay={i * 50}
               >
                 <div className="timeline-marker">
                   <span />
                 </div>
-                <div className="timeline-content">
-                  <div className="timeline-meta">
-                    <span className="timeline-range">{t.range}</span>
-                    <span className="timeline-loc">· {t.location}</span>
+                <div className="timeline-meta">
+                  <span className="timeline-range">
+                    {t.range}
                     {t.tag === "current" && (
                       <span className="timeline-pill">Now</span>
                     )}
-                  </div>
+                  </span>
+                  <span className="timeline-loc">{t.location}</span>
+                </div>
+                <div className="timeline-content">
                   <h4 className="timeline-role">
                     {t.role} <span className="timeline-co">@ {t.company}</span>
                   </h4>
                   <p className="timeline-note">{t.note}</p>
                 </div>
-              </motion.li>
+              </Reveal>
             ))}
           </ol>
         </div>

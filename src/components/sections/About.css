@@ -18,7 +18,7 @@
 .about-grid {
   display: grid;
   grid-template-columns: minmax(280px, 0.85fr) 1.4fr;
-  gap: 5rem;
+  gap: clamp(2.5rem, 6vw, 5rem);
   align-items: start;
   position: relative;
   z-index: 1;
@@ -38,6 +38,7 @@
   box-shadow: var(--shadow-md);
   transform: rotate(-1.5deg);
   transition: transform 0.5s var(--ease-out);
+  background: var(--surface);
 }
 
 .about-photo-frame:hover {
@@ -46,9 +47,17 @@
 
 .about-photo-frame img {
   width: 100%;
+  height: auto;
   aspect-ratio: 4/5;
   object-fit: cover;
   filter: contrast(1.05) saturate(0.95);
+  transition: filter 0.6s var(--ease-out), scale 0.8s var(--ease-out);
+}
+
+/* Photographer mode: warmer grade, viewfinder corners. */
+.about-photo-frame.mode-photographer img {
+  filter: contrast(1.08) saturate(1.12) sepia(0.12);
+  scale: 1.04;
 }
 
 .about-photo-tag {
@@ -66,10 +75,38 @@
   font-size: 0.7rem;
   letter-spacing: 0.05em;
   color: var(--text);
+  transition: opacity 0.4s var(--ease-out), border-color 0.4s var(--ease-out);
 }
 
 .about-photo-tag.tl { top: 1rem; left: 1rem; }
 .about-photo-tag.br { bottom: 1rem; right: 1rem; }
+
+.mode-engineer .about-photo-tag.br,
+.mode-photographer .about-photo-tag.tl { opacity: 0.45; }
+
+.mode-engineer .about-photo-tag.tl,
+.mode-photographer .about-photo-tag.br { border-color: rgba(255, 107, 53, 0.6); }
+
+.about-photo-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 0 solid rgba(246, 246, 249, 0.85);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out), inset 0.5s var(--ease-out);
+  pointer-events: none;
+}
+
+.about-photo-corner.tl { inset: 30% auto auto 24%; border-top-width: 2px; border-left-width: 2px; }
+.about-photo-corner.tr { inset: 30% 24% auto auto; border-top-width: 2px; border-right-width: 2px; }
+.about-photo-corner.bl { inset: auto auto 40% 24%; border-bottom-width: 2px; border-left-width: 2px; }
+.about-photo-corner.br { inset: auto 24% 40% auto; border-bottom-width: 2px; border-right-width: 2px; }
+
+.mode-photographer .about-photo-corner { opacity: 1; }
+.mode-photographer .about-photo-corner.tl { inset: 26% auto auto 28%; }
+.mode-photographer .about-photo-corner.tr { inset: 26% 28% auto auto; }
+.mode-photographer .about-photo-corner.bl { inset: auto auto 44% 28%; }
+.mode-photographer .about-photo-corner.br { inset: auto 28% 44% auto; }
 
 .about-photo-glow {
   position: absolute;
@@ -104,6 +141,7 @@
   border-radius: 999px;
   background: var(--surface);
   width: fit-content;
+  max-width: 100%;
   isolation: isolate;
 }
 
@@ -125,9 +163,8 @@
   white-space: nowrap;
 }
 
-.about-toggle button.active {
-  color: var(--bg);
-}
+.about-toggle button:hover { color: var(--text); }
+.about-toggle button.active { color: var(--bg); }
 
 .about-toggle-pill {
   position: absolute;
@@ -146,23 +183,29 @@
   line-height: 1.7;
   color: var(--text-dim);
   max-width: 60ch;
+  /* Both bios take roughly the same room, so the facts below don't jump. */
+  min-height: 19rem;
 }
 
-.about-prose p {
-  margin: 0 0 1.1rem;
+.about-prose-swap {
+  animation: about-swap 0.45s var(--ease-out) both;
 }
+
+@keyframes about-swap {
+  from { opacity: 0; translate: 0 12px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+.about-prose p { margin: 0 0 1.1rem; }
 
 .about-prose strong {
   color: var(--text);
   font-weight: 600;
 }
 
-.about-prose em {
-  font-family: var(--font-serif);
-  font-style: italic;
+.about-prose .serif-italic {
   color: var(--accent);
-  font-weight: 400;
-  font-size: 1.1em;
+  font-size: 1.12em;
 }
 
 .about-facts {
@@ -188,6 +231,7 @@
   height: 32px;
   border-radius: 8px;
   background: var(--surface);
+  border: 1px solid var(--border);
   color: var(--accent);
   flex-shrink: 0;
   margin-top: 0.15rem;
@@ -213,15 +257,20 @@
 }
 
 @media (max-width: 900px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
+  .about-grid { grid-template-columns: 1fr; }
   .about-photo {
     position: static;
     max-width: 360px;
   }
-  .about-facts {
-    grid-template-columns: 1fr;
+  .about-prose { min-height: 0; }
+}
+
+@media (max-width: 520px) {
+  .about-facts { grid-template-columns: 1fr; }
+  .about-toggle { width: 100%; }
+  .about-toggle button {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.74rem;
+    letter-spacing: 0;
   }
 }

@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Mail, Send, Camera, Code2, Check } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Mail, Send, Camera, Code2, Check, Copy } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "../icons/SocialIcons.jsx";
+import Reveal from "../Reveal.jsx";
 import "./Contact.css";
+
+const EMAIL = "jonny@oovra.net";
 
 const TOPICS = [
   { id: "shoot", label: "Photography session", icon: <Camera size={14} /> },
@@ -14,8 +16,12 @@ export default function Contact() {
   const [topic, setTopic] = useState("shoot");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const onChange = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+  const onChange = (k) => (e) => {
+    setForm({ ...form, [k]: e.target.value });
+    setSent(false);
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -25,20 +31,29 @@ export default function Contact() {
     const body = encodeURIComponent(
       `${form.message}\n\n— ${form.name}\n${form.email}`
     );
-    window.location.href = `mailto:jonny@oovra.net?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
     setSent(true);
   };
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+    } catch {
+      /* clipboard blocked: the mailto link right beside it still works */
+    }
+  };
+
+  useEffect(() => {
+    if (!copied) return;
+    const t = window.setTimeout(() => setCopied(false), 2000);
+    return () => window.clearTimeout(t);
+  }, [copied]);
 
   return (
     <section id="contact" className="contact">
       <div className="container contact-grid">
-        <motion.div
-          className="contact-left"
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <Reveal className="contact-left">
           <span className="eyebrow">Contact</span>
           <h2 className="section-title">
             Say<br />
@@ -51,18 +66,29 @@ export default function Contact() {
           </p>
 
           <div className="contact-channels">
-            <a
-              href="mailto:jonny@oovra.net"
-              className="channel"
-              data-cursor
-              data-cursor-text="Email"
-            >
-              <Mail size={18} />
-              <div>
-                <span>Email</span>
-                <strong>jonny@oovra.net</strong>
-              </div>
-            </a>
+            <div className="channel-row">
+              <a
+                href={`mailto:${EMAIL}`}
+                className="channel"
+                data-cursor
+                data-cursor-text="Email"
+              >
+                <Mail size={18} />
+                <div>
+                  <span>Email</span>
+                  <strong>{EMAIL}</strong>
+                </div>
+              </a>
+              <button
+                type="button"
+                className={`channel-copy ${copied ? "copied" : ""}`}
+                onClick={copyEmail}
+                aria-label={copied ? "Email address copied" : "Copy email address"}
+                data-cursor
+              >
+                {copied ? <Check size={16} /> : <Copy size={16} />}
+              </button>
+            </div>
             <a
               href="https://www.linkedin.com/in/jonnyporter"
               target="_blank"
@@ -102,24 +128,18 @@ export default function Contact() {
               </span>
             </div>
           </div>
-        </motion.div>
+        </Reveal>
 
-        <motion.form
-          className="contact-form"
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          onSubmit={onSubmit}
-        >
-          <div className="form-topic">
-            <span className="form-label">I'm reaching out about</span>
+        <Reveal as="form" className="contact-form" delay={100} onSubmit={onSubmit}>
+          <fieldset className="form-topic">
+            <legend className="form-label">I'm reaching out about</legend>
             <div className="topic-row">
               {TOPICS.map((t) => (
                 <button
                   type="button"
                   key={t.id}
                   data-cursor
+                  aria-pressed={topic === t.id}
                   className={`topic ${topic === t.id ? "active" : ""}`}
                   onClick={() => setTopic(t.id)}
                 >
@@ -127,12 +147,14 @@ export default function Contact() {
                 </button>
               ))}
             </div>
-          </div>
+          </fieldset>
 
           <label className="form-field">
             <span>Your name</span>
             <input
               type="text"
+              name="name"
+              autoComplete="name"
               required
               value={form.name}
               onChange={onChange("name")}
@@ -144,6 +166,8 @@ export default function Contact() {
             <span>Email</span>
             <input
               type="email"
+              name="email"
+              autoComplete="email"
               required
               value={form.email}
               onChange={onChange("email")}
@@ -154,6 +178,7 @@ export default function Contact() {
           <label className="form-field">
             <span>What's on your mind?</span>
             <textarea
+              name="message"
               required
               rows={5}
               value={form.message}
@@ -169,21 +194,15 @@ export default function Contact() {
           </label>
 
           <button type="submit" className="form-submit" data-cursor>
-            {sent ? (
-              <>
-                <Check size={18} /> Sent — check your mail client
-              </>
-            ) : (
-              <>
-                <Send size={18} /> Send the note
-              </>
-            )}
+            <Send size={18} /> Send the note
           </button>
 
-          <p className="form-fineprint">
-            Form opens your mail app, no tracking, no list — promise.
+          <p className="form-fineprint" role="status">
+            {sent
+              ? "Your mail app should have opened with the note ready to send."
+              : "Form opens your mail app, no tracking, no list — promise."}
           </p>
-        </motion.form>
+        </Reveal>
       </div>
     </section>
   );

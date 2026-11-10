@@ -1,17 +1,34 @@
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
-  padding: 6rem 0 4rem;
+  padding: 6.5rem 0 4.5rem;
   overflow: hidden;
+}
+
+/* Painted instantly; the WebGL scene fades in over it once it has loaded. */
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 46% 42% at 72% 46%, rgba(255, 209, 102, 0.16), transparent 70%),
+    radial-gradient(ellipse 70% 26% at 68% 50%, rgba(255, 107, 53, 0.13), transparent 70%),
+    radial-gradient(ellipse 60% 60% at 82% 58%, rgba(95, 201, 248, 0.08), transparent 70%),
+    #0a0a0f;
 }
 
 .hero-canvas {
   position: absolute;
   inset: 0;
   z-index: 0;
+  opacity: 0;
+  transition: opacity 1.4s var(--ease-out);
 }
+
+.hero-canvas.ready { opacity: 1; }
 
 .hero-vignette {
   position: absolute;
@@ -19,13 +36,25 @@
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 50% 50%, transparent 30%, var(--bg) 90%),
-    linear-gradient(180deg, transparent 60%, var(--bg) 100%);
+    linear-gradient(90deg, rgba(10, 10, 15, 0.78) 0%, rgba(10, 10, 15, 0.35) 42%, transparent 62%),
+    radial-gradient(ellipse at 62% 50%, transparent 35%, var(--bg) 96%),
+    linear-gradient(180deg, transparent 62%, var(--bg) 100%);
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
+}
+
+/* Entrance: pure CSS so the prerendered hero animates before JS arrives. */
+.hero-rise {
+  animation: hero-rise 0.9s var(--ease-out) both;
+  animation-delay: calc(80ms + var(--i, 0) * 85ms);
+}
+
+@keyframes hero-rise {
+  from { opacity: 0; translate: 0 26px; }
+  to { opacity: 1; translate: 0 0; }
 }
 
 .hero-eyebrow {
@@ -45,39 +74,31 @@
   letter-spacing: 0.05em;
 }
 
-.dot-live {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #2ee27a;
-  box-shadow: 0 0 12px #2ee27a;
-  animation: pulse 1.8s ease-in-out infinite;
-}
-
 .hero-title {
-  font-size: clamp(2.5rem, 8vw, 6.5rem);
+  font-size: clamp(2.5rem, min(7.6vw, 11.5vh), 6.5rem);
   font-weight: 700;
   line-height: 0.98;
   letter-spacing: -0.035em;
   color: var(--text);
   margin: 0 0 2rem;
   max-width: 16ch;
+  text-wrap: initial;
 }
 
 .hero-line {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.3em;
+  gap: 0 0.3em;
 }
 
-.hero-word {
-  display: inline-block;
-}
+.hero-word { display: inline-block; }
+
+/* Italic serifs overhang their box; give the gradient/clip room. */
+.hero-word.serif-italic { padding-right: 0.06em; }
 
 .hero-meta {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.25rem;
   display: flex;
   align-items: center;
   gap: 2rem;
@@ -93,7 +114,7 @@
 }
 
 .hero-role-label {
-  color: var(--text-muted);
+  color: var(--text-dim);
   letter-spacing: 0.05em;
 }
 
@@ -125,7 +146,7 @@
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-  margin-bottom: 4rem;
+  margin-bottom: clamp(2.25rem, 5vh, 3.5rem);
 }
 
 .hero-btn {
@@ -137,7 +158,17 @@
   font-weight: 600;
   font-size: 0.95rem;
   border: 1px solid transparent;
-  transition: all 0.3s var(--ease-out);
+  transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out),
+    border-color 0.3s var(--ease-out), transform 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out);
+}
+
+.hero-btn svg:last-child:not(:first-child) {
+  transition: transform 0.3s var(--ease-out);
+}
+
+.hero-btn:hover svg:last-child:not(:first-child) {
+  transform: translate(2px, 2px);
 }
 
 .hero-btn.primary {
@@ -150,6 +181,7 @@
   background: var(--accent);
   color: var(--bg);
   transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(255, 107, 53, 0.4);
 }
 
 .hero-btn.ghost {
@@ -167,10 +199,11 @@
 }
 
 .hero-stats {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, auto);
   gap: 2.5rem;
-  padding-top: 2rem;
+  padding-top: 1.75rem;
   border-top: 1px solid var(--border);
   width: fit-content;
 }
@@ -197,7 +230,14 @@
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text-dim);
+}
+
+/* BUG-001 strolls along the rule above the stats. */
+.hero-bug {
+  top: -12px;
+  right: 14%;
+  --bug-tilt: 82deg;
 }
 
 .hero-scroll {
@@ -220,7 +260,7 @@
 .hero-scroll-bar {
   display: block;
   width: 1px;
-  height: 50px;
+  height: 44px;
   background: var(--border-strong);
   position: relative;
   overflow: hidden;
@@ -240,24 +280,50 @@
 @keyframes bead {
   0% { transform: translateY(-100%); opacity: 0; }
   30% { opacity: 1; }
-  100% { transform: translateY(50px); opacity: 0; }
+  100% { transform: translateY(44px); opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .hero-backdrop {
+    background:
+      radial-gradient(ellipse 80% 34% at 50% 42%, rgba(255, 209, 102, 0.13), transparent 70%),
+      radial-gradient(ellipse 100% 22% at 50% 46%, rgba(255, 107, 53, 0.12), transparent 70%),
+      #0a0a0f;
+  }
+  .hero-vignette {
+    background:
+      radial-gradient(ellipse at 50% 45%, rgba(10, 10, 15, 0.5) 25%, var(--bg) 95%),
+      linear-gradient(180deg, transparent 60%, var(--bg) 100%);
+  }
 }
 
 @media (max-width: 700px) {
   .hero {
     min-height: auto;
-    padding: 8rem 0 6rem;
+    padding: 7.5rem 0 5rem;
   }
+  .hero-eyebrow { font-size: 0.68rem; }
+  .hero-role-rotator { min-width: 0; flex: 1; }
   .hero-stats {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem 1rem;
+    gap: 1.5rem;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
   }
-  .hero-stat-val { font-size: 1.5rem; }
+  .hero-stat-val { font-size: 1.6rem; }
+  .hero-stat-label { font-size: 0.62rem; }
   .hero-scroll { display: none; }
-  .hero-actions { margin-bottom: 3rem; }
-  .hero-vignette {
-    background:
-      radial-gradient(ellipse at 50% 50%, rgba(10,10,15,0.55) 30%, var(--bg) 95%),
-      linear-gradient(180deg, transparent 60%, var(--bg) 100%);
+}
+
+/* Short laptop screens: tighten up so the stats stay above the fold. */
+@media (max-height: 760px) and (min-width: 701px) {
+  .hero { padding: 5.25rem 0 2.5rem; }
+  .hero-eyebrow { margin-bottom: 1.25rem; }
+  .hero-title {
+    font-size: clamp(2.5rem, min(7.6vw, 10.5vh), 6.5rem);
+    margin-bottom: 1.25rem;
   }
+  .hero-meta { margin-bottom: 1.5rem; }
+  .hero-actions { margin-bottom: 1.75rem; }
+  .hero-stats { padding-top: 1.25rem; }
+  .hero-scroll { display: none; }
 }

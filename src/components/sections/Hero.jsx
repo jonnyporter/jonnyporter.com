@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { ArrowDownRight, Camera, Code2 } from "lucide-react";
-import HeroScene from "../three/HeroScene.jsx";
+import { Bug } from "../BugHunt.jsx";
+import { useInView, usePrefersReducedMotion } from "../../lib/hooks.js";
 import "./Hero.css";
+
+// three.js is by far the heaviest thing on the page, so it loads on its own,
+// after the text has painted.
+const HeroScene = lazy(() => import("../three/HeroScene.jsx"));
 
 const ROLES = [
   "QA Engineer at Bonterra",
@@ -13,68 +17,92 @@ const ROLES = [
   "Idaho-based",
 ];
 
+function canRunWebGL() {
+  try {
+    const canvas = document.createElement("canvas");
+    const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
+    if (!gl) return false;
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export default function Hero() {
   const [roleIdx, setRoleIdx] = useState(0);
+  const [mountScene, setMountScene] = useState(false);
+  const [sceneReady, setSceneReady] = useState(false);
+  const sectionRef = useRef(null);
+  const inView = useInView(sectionRef, { amount: 0.05 });
+  const reducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
+    if (reducedMotion) return;
     const id = setInterval(() => {
       setRoleIdx((i) => (i + 1) % ROLES.length);
     }, 2400);
     return () => clearInterval(id);
+  }, [reducedMotion]);
+
+  useEffect(() => {
+    if (navigator.connection?.saveData || !canRunWebGL()) return;
+    const idle =
+      window.requestIdleCallback || ((cb) => window.setTimeout(cb, 250));
+    const cancel = window.cancelIdleCallback || window.clearTimeout;
+    const id = idle(() => setMountScene(true), { timeout: 1200 });
+    return () => cancel(id);
   }, []);
 
   return (
-    <section id="top" className="hero">
-      <div className="hero-canvas">
-        <HeroScene />
+    <section id="top" className="hero" ref={sectionRef}>
+      <div className="hero-backdrop" aria-hidden="true" />
+      <div
+        className={`hero-canvas ${sceneReady ? "ready" : ""}`}
+        aria-hidden="true"
+      >
+        {mountScene && (
+          <Suspense fallback={null}>
+            <HeroScene
+              active={inView}
+              reducedMotion={reducedMotion}
+              onReady={() => setSceneReady(true)}
+            />
+          </Suspense>
+        )}
       </div>
-      <div className="hero-vignette" />
+      <div className="hero-vignette" aria-hidden="true" />
 
       <div className="hero-content container">
-        <motion.div
-          className="hero-eyebrow"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <span className="dot-live" />
+        <div className="hero-eyebrow hero-rise" style={{ "--i": 0 }}>
+          <span className="dot" />
           <span>Booking photo shoots · Taking Oovra projects · Idaho</span>
-        </motion.div>
+        </div>
 
-        <motion.h1
-          className="hero-title"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-        >
-          <span className="hero-line">
+        <h1 className="hero-title">
+          <span className="hero-line hero-rise" style={{ "--i": 1 }}>
             <span className="hero-word">Hi,</span>
             <span className="hero-word">I'm</span>
             <span className="hero-word gradient-text">Jonny.</span>
           </span>
-          <span className="hero-line">
+          <span className="hero-line hero-rise" style={{ "--i": 2 }}>
             <span className="hero-word">Tests</span>
             <span className="hero-word serif-italic">by day,</span>
           </span>
-          <span className="hero-line">
+          <span className="hero-line hero-rise" style={{ "--i": 3 }}>
             <span className="hero-word gradient-text-cool">photos</span>
             <span className="hero-word serif-italic">by light,</span>
           </span>
-          <span className="hero-line">
+          <span className="hero-line hero-rise" style={{ "--i": 4 }}>
             <span className="hero-word">apps</span>
             <span className="hero-word serif-italic">on the side.</span>
           </span>
-        </motion.h1>
+        </h1>
 
-        <motion.div
-          className="hero-meta"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
+        <div className="hero-meta hero-rise" style={{ "--i": 5 }}>
           <div className="hero-role">
             <span className="hero-role-label">Currently:</span>
-            <div className="hero-role-rotator">
+            <div className="hero-role-rotator" aria-hidden="true">
               {ROLES.map((r, i) => (
                 <span
                   key={r}
@@ -84,50 +112,46 @@ export default function Hero() {
                 </span>
               ))}
             </div>
+            <span className="sr-only">{ROLES.join(", ")}</span>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="hero-actions"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <a href="#engineer" className="hero-btn primary" data-cursor data-cursor-text="See">
+        <div className="hero-actions hero-rise" style={{ "--i": 6 }}>
+          <a
+            href="#engineer"
+            className="hero-btn primary"
+            data-cursor
+            data-cursor-text="See"
+          >
             <Code2 size={18} />
             See the engineering
             <ArrowDownRight size={18} />
           </a>
-          <a href="#photography" className="hero-btn ghost" data-cursor data-cursor-text="View">
+          <a
+            href="#photography"
+            className="hero-btn ghost"
+            data-cursor
+            data-cursor-text="Shoot"
+          >
             <Camera size={18} />
-            View the photography
+            Try the camera
           </a>
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="hero-stats"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-        >
-          <Stat value="4+" label="Years in QA" />
+        <div className="hero-stats hero-rise" style={{ "--i": 7 }}>
+          <Stat value="5+" label="Years in QA" />
           <Stat value="∞" label="Bugs prevented" />
           <Stat value="∞" label="Frames captured" />
-        </motion.div>
+          <Bug id="kpi" className="hero-bug" />
+        </div>
       </div>
 
-      <motion.a
-        href="#about"
-        className="hero-scroll"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-      >
+      <a href="#about" className="hero-scroll" aria-label="Scroll to About">
         <span>Scroll</span>
         <span className="hero-scroll-bar">
           <span className="hero-scroll-bead" />
         </span>
-      </motion.a>
+      </a>
     </section>
   );
 }

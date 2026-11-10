@@ -1,0 +1,268 @@
+/* ---------- The beetles ---------- */
+.bug {
+  position: absolute;
+  z-index: 3;
+  width: 22px;
+  height: 22px;
+  padding: 2px;
+  color: var(--accent);
+  opacity: 0.5;
+  border-radius: 50%;
+  transition: opacity 0.25s var(--ease-out), scale 0.25s var(--ease-out),
+    color 0.25s var(--ease-out);
+  animation: bug-idle 5s ease-in-out infinite;
+}
+
+.bug:hover,
+.bug:focus-visible {
+  opacity: 1;
+  scale: 1.25;
+  color: var(--accent-4);
+}
+
+.bug .bug-legs {
+  transform-origin: 12px 14px;
+  animation: bug-legs 0.5s steps(2) infinite;
+  animation-play-state: paused;
+}
+
+.bug:hover .bug-legs { animation-play-state: running; }
+
+.bug.squashed {
+  pointer-events: none;
+  animation: bug-squash 0.6s var(--ease-out) forwards;
+}
+
+@keyframes bug-idle {
+  0%, 100% { translate: 0 0; rotate: var(--bug-tilt, 0deg); }
+  40% { translate: 2px -1px; rotate: calc(var(--bug-tilt, 0deg) + 8deg); }
+  70% { translate: -1px 1px; rotate: calc(var(--bug-tilt, 0deg) - 6deg); }
+}
+
+@keyframes bug-legs {
+  to { transform: scaleY(0.82); }
+}
+
+@keyframes bug-squash {
+  0% { scale: 1.3; opacity: 1; }
+  35% { scale: 1.7 0.35; opacity: 1; color: var(--ok); }
+  100% { scale: 2.2 0; opacity: 0; color: var(--ok); }
+}
+
+/* ---------- Tracker ---------- */
+.bug-tracker {
+  position: fixed;
+  left: max(1rem, env(safe-area-inset-left));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+}
+
+.bug-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.85rem 0.5rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: rgba(17, 17, 26, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  box-shadow: var(--shadow-md);
+  transition: border-color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+  animation: bug-pop 0.5s var(--ease-out) both;
+}
+
+.bug-pill:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.bug-pill svg {
+  width: 18px;
+  height: 18px;
+  color: var(--accent);
+}
+
+.bug-pill.done { border-color: rgba(110, 231, 183, 0.5); }
+.bug-pill.done svg { color: var(--ok); }
+
+.bug-toast-slot { min-height: 0; }
+
+.bug-toast {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  max-width: min(320px, calc(100vw - 2rem));
+  padding: 0.7rem 0.95rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(110, 231, 183, 0.35);
+  background: rgba(17, 17, 26, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-md);
+  animation: bug-pop 0.45s var(--ease-out) both;
+}
+
+.bug-toast-code {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ok);
+}
+
+.bug-toast-title {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.bug-panel {
+  width: min(330px, calc(100vw - 2rem));
+  padding: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: rgba(17, 17, 26, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+  animation: bug-pop 0.35s var(--ease-out) both;
+}
+
+.bug-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.bug-panel-head button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: var(--text-dim);
+  transition: background 0.2s, color 0.2s;
+}
+
+.bug-panel-head button:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.bug-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bug-list li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 0.6rem;
+  align-items: start;
+}
+
+.bug-list-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px dashed var(--border-strong);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.bug-list li.got .bug-list-mark {
+  border: 1px solid rgba(110, 231, 183, 0.4);
+  background: rgba(110, 231, 183, 0.12);
+  color: var(--ok);
+}
+
+.bug-list-body {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+}
+
+.bug-list-body strong {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+.bug-list-body span {
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  color: var(--text-dim);
+}
+
+.bug-list li.got .bug-list-body span { color: var(--text); }
+
+.bug-panel-foot {
+  margin-top: 0.9rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+}
+
+.bug-panel-foot p {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  color: var(--text-dim);
+}
+
+.bug-panel-foot.done p { color: var(--text); }
+
+.bug-panel-foot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.7rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.bug-panel-foot a:hover { background: var(--ok); }
+
+.bug-reset {
+  margin-top: 0.75rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.bug-reset:hover { color: var(--text); }
+
+@keyframes bug-pop {
+  from { opacity: 0; translate: 0 10px; scale: 0.96; }
+  to { opacity: 1; translate: 0 0; scale: 1; }
+}

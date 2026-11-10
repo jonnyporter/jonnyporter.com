@@ -1,6 +1,7 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { Boxes, Sparkles, Workflow, ArrowUpRight } from "lucide-react";
+import Reveal from "../Reveal.jsx";
+import { spotlight } from "../../lib/hooks.js";
 import "./Oovra.css";
 
 const WORK = [
@@ -28,13 +29,7 @@ export default function Oovra() {
   return (
     <section id="oovra" className="oovra">
       <div className="container oovra-grid">
-        <motion.div
-          className="oovra-intro"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
-        >
+        <Reveal className="oovra-intro">
           <span className="eyebrow">Side studio</span>
           <h2 className="section-title">
             And on the side,{" "}
@@ -45,30 +40,43 @@ export default function Oovra() {
             business problem that smells like software — or you're sitting on
             data that should be doing more for you — that's my lane.
           </p>
-          <a
-            href="#contact"
-            className="oovra-cta"
-            data-cursor
-            data-cursor-text="Talk"
-          >
-            Pitch a project <ArrowUpRight size={16} />
-          </a>
-        </motion.div>
+          <div className="oovra-actions">
+            <a
+              href="#contact"
+              className="oovra-cta"
+              data-cursor
+              data-cursor-text="Talk"
+            >
+              Pitch a project <ArrowUpRight size={16} />
+            </a>
+            <a
+              href="https://oovra.net/"
+              target="_blank"
+              rel="noreferrer"
+              className="oovra-link"
+              data-cursor
+              data-cursor-text="Open"
+            >
+              oovra.net <ArrowUpRight size={14} />
+            </a>
+          </div>
+        </Reveal>
 
         <div className="oovra-cards">
           {WORK.map((w, i) => (
-            <motion.div
+            <Reveal
               key={w.title}
-              className="oovra-card"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
+              className="oovra-card spot cool"
+              delay={100 + i * 80}
+              onPointerMove={spotlight}
             >
+              <span className="oovra-card-num" aria-hidden="true">
+                0{i + 1}
+              </span>
               <span className="oovra-card-icon">{w.icon}</span>
-              <h4>{w.title}</h4>
+              <h3>{w.title}</h3>
               <p>{w.body}</p>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>

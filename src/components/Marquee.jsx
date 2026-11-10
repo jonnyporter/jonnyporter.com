@@ -2,7 +2,8 @@ import React from "react";
 import "./Marquee.css";
 
 export default function Marquee({ items = [], variant = "" }) {
-  const repeat = [...items, ...items, ...items, ...items];
+  // Three copies: the track slides by exactly one copy, so the loop is seamless.
+  const repeat = [...items, ...items, ...items];
   return (
     <div className={`marquee ${variant}`} aria-hidden="true">
       <div className="marquee-track">

@@ -6,19 +6,22 @@
   border-bottom: 1px solid var(--border);
   background: var(--bg-2);
   color: var(--text);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
 .marquee-track {
   display: flex;
   width: max-content;
   gap: 3rem;
-  animation: scroll 38s linear infinite;
+  padding-right: 3rem;
+  animation: marquee 44s linear infinite;
   will-change: transform;
 }
 
-.marquee.reverse .marquee-track {
-  animation-direction: reverse;
-}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+.marquee.reverse .marquee-track { animation-direction: reverse; }
 
 .marquee-item {
   display: inline-flex;
@@ -40,6 +43,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  padding-right: 0.08em;
 }
 
 .marquee-item svg {
@@ -47,6 +51,6 @@
   flex-shrink: 0;
 }
 
-@keyframes scroll {
-  to { transform: translateX(-25%); }
+@keyframes marquee {
+  to { transform: translateX(calc(-100% / 3)); }
 }

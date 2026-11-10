@@ -1,27 +1,28 @@
-import React from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import React, { useEffect, useRef } from "react";
 
 export default function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 30,
-    restDelta: 0.001,
-  });
-  return (
-    <motion.div
-      style={{
-        scaleX,
-        transformOrigin: "0%",
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 2,
-        background:
-          "linear-gradient(90deg, #ff6b35, #ffd166, #5fc9f8, #b794f4)",
-        zIndex: 9998,
-      }}
-    />
-  );
+  const bar = useRef(null);
+
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      if (bar.current) bar.current.style.transform = `scaleX(${p})`;
+    };
+    const request = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", request);
+      window.removeEventListener("resize", request);
+    };
+  }, []);
+
+  return <div ref={bar} className="scroll-progress" aria-hidden="true" />;
 }

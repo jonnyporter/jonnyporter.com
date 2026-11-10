@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import {
   User,
   Heart,
@@ -8,6 +7,9 @@ import {
   ArrowUpRight,
   Check,
 } from "lucide-react";
+import Reveal from "../Reveal.jsx";
+import { Bug } from "../BugHunt.jsx";
+import { spotlight } from "../../lib/hooks.js";
 import "./Services.css";
 
 const SERVICES = [
@@ -54,13 +56,7 @@ export default function Services() {
   return (
     <section id="services" className="services">
       <div className="container">
-        <motion.div
-          className="section-head"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <Reveal className="section-head">
           <span className="eyebrow">Photography booking</span>
           <h2 className="section-title">
             Pick a shoot, or{" "}
@@ -71,17 +67,15 @@ export default function Services() {
             Idaho local, will travel. None of these quite fit your idea?
             Send a note — I'll put something custom together.
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="services-grid">
           {SERVICES.map((s, i) => (
-            <motion.div
+            <Reveal
               key={s.title}
-              className={`service-card ${s.accent} ${s.featured ? "featured" : ""}`}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className={`service-card spot ${s.accent} ${s.featured ? "featured" : ""}`}
+              delay={i * 80}
+              onPointerMove={spotlight}
             >
               {s.featured && <span className="service-tag">Most booked</span>}
               <div className="service-head">
@@ -104,14 +98,16 @@ export default function Services() {
                 <a
                   href="#contact"
                   className="service-cta"
+                  aria-label={`Inquire about ${s.title}`}
                   data-cursor
                   data-cursor-text="Book"
                 >
                   Inquire <ArrowUpRight size={14} />
                 </a>
               </div>
-            </motion.div>
+            </Reveal>
           ))}
+          <Bug id="staging" className="services-bug" />
         </div>
       </div>
     </section>

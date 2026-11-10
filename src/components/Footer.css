@@ -16,10 +16,12 @@
   font-family: var(--font-display);
   font-size: 2.5rem;
   font-weight: 700;
+  line-height: 1.1;
   background: var(--gradient-warm);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  width: fit-content;
   margin-bottom: 1rem;
 }
 
@@ -40,10 +42,11 @@
   margin: 0;
 }
 
-.footer-col h5 {
+.footer-col h2 {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 500;
+  line-height: 1.4;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -54,14 +57,16 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  width: fit-content;
   color: var(--text-dim);
   padding: 0.35rem 0;
   font-size: 0.95rem;
-  transition: color 0.2s var(--ease-out);
+  transition: color 0.2s var(--ease-out), translate 0.2s var(--ease-out);
 }
 
 .footer-col a:hover {
   color: var(--accent);
+  translate: 3px 0;
 }
 
 .footer-cta p {
@@ -74,36 +79,17 @@
   line-height: 1.5;
 }
 
-.footer-cta strong {
-  color: var(--text);
-}
+.footer-cta .dot { margin-top: 0.45rem; }
 
-.dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #2ee27a;
-  box-shadow: 0 0 12px #2ee27a;
-  margin-top: 0.45rem;
-  flex-shrink: 0;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-.dot.warm {
-  background: var(--accent);
-  box-shadow: 0 0 12px var(--accent);
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
+.footer-cta strong { color: var(--text); }
 
 .footer-bottom {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem 2rem;
+  flex-wrap: wrap;
   padding-top: 2rem;
   border-top: 1px solid var(--border);
   font-family: var(--font-mono);
@@ -121,6 +107,23 @@
   margin-left: 0.25rem;
 }
 
+.footer-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text-dim);
+  transition: color 0.2s;
+}
+
+.footer-top:hover { color: var(--accent); }
+
+/* BUG-005: all the way down at the bottom of the backlog. */
+.footer-bug {
+  top: -11px;
+  left: 38%;
+  --bug-tilt: -90deg;
+}
+
 @media (max-width: 900px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
@@ -128,13 +131,11 @@
   }
   .footer-bottom {
     flex-direction: column;
-    gap: 0.5rem;
     text-align: center;
   }
 }
 
 @media (max-width: 600px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-  }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer { padding-bottom: 5rem; }
 }

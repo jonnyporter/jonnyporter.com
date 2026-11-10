@@ -1,6 +1,7 @@
 import React from "react";
-import { Mail, MapPin } from "lucide-react";
+import { ArrowUp, Mail, MapPin } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./icons/SocialIcons.jsx";
+import { Bug } from "./BugHunt.jsx";
 import "./Footer.css";
 
 export default function Footer() {
@@ -20,18 +21,18 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="footer-col">
-          <h5>Sitemap</h5>
+        <nav className="footer-col" aria-label="Sitemap">
+          <h2>Sitemap</h2>
           <a href="#about">About</a>
           <a href="#engineer">Engineering</a>
           <a href="#oovra">Oovra</a>
           <a href="#photography">Photography</a>
           <a href="#services">Services</a>
           <a href="#contact">Contact</a>
-        </div>
+        </nav>
 
         <div className="footer-col">
-          <h5>Elsewhere</h5>
+          <h2>Elsewhere</h2>
           <a
             href="https://www.linkedin.com/in/jonnyporter"
             target="_blank"
@@ -52,25 +53,31 @@ export default function Footer() {
         </div>
 
         <div className="footer-col footer-cta">
-          <h5>Currently</h5>
+          <h2>Currently</h2>
           <p>
-            <span className="dot" /> QA Engineer at{" "}
-            <strong>Bonterra</strong>.
+            <span className="dot" />
+            <span>
+              QA Engineer at <strong>Bonterra</strong>.
+            </span>
           </p>
           <p>
-            <span className="dot warm" /> Booking photography &amp; Oovra
-            projects.
+            <span className="dot warm" />
+            <span>Booking photography &amp; Oovra projects.</span>
           </p>
         </div>
       </div>
 
       <div className="footer-bottom container">
-        <span>
+        <span suppressHydrationWarning>
           © {year} Jonathan Porter. <em>All frames reserved.</em>
         </span>
         <span className="footer-built">
           Built in React + Three.js, somewhere in Idaho.
         </span>
+        <a href="#top" className="footer-top" data-cursor data-cursor-text="Top">
+          Back to top <ArrowUp size={12} />
+        </a>
+        <Bug id="backlog" className="footer-bug" />
       </div>
     </footer>
   );

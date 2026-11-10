@@ -32,7 +32,6 @@
 }
 
 .service-card {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -40,7 +39,8 @@
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  transition: all 0.4s var(--ease-out);
+  transition: transform 0.4s var(--ease-out), border-color 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out);
   overflow: hidden;
 }
 
@@ -91,9 +91,10 @@
 
 .service-head {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 .service-icon {
@@ -106,7 +107,10 @@
   background: var(--bg);
   border: 1px solid var(--border);
   color: var(--accent);
+  transition: transform 0.4s var(--ease-out);
 }
+
+.service-card:hover .service-icon { transform: rotate(-8deg) scale(1.06); }
 
 .service-card.cool .service-icon { color: var(--accent-2); }
 .service-card.purple .service-icon { color: var(--accent-3); }
@@ -151,6 +155,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.75rem;
   padding-top: 1rem;
   border-top: 1px solid var(--border);
   margin-top: auto;
@@ -173,10 +178,17 @@
   color: var(--bg);
   font-size: 0.8rem;
   font-weight: 600;
-  transition: all 0.25s;
+  transition: background 0.25s, color 0.25s;
 }
 
 .service-cta:hover {
   background: var(--accent);
   color: var(--bg);
+}
+
+/* BUG-004 has wandered out between the cards. */
+.services-bug {
+  bottom: -30px;
+  right: 6%;
+  --bug-tilt: 140deg;
 }

@@ -2,23 +2,27 @@ import React from "react";
 import Nav from "./components/Nav.jsx";
 import Cursor from "./components/Cursor.jsx";
 import ScrollProgress from "./components/ScrollProgress.jsx";
+import Marquee from "./components/Marquee.jsx";
+import Footer from "./components/Footer.jsx";
+import { BugHuntProvider, BugTracker } from "./components/BugHunt.jsx";
 import Hero from "./components/sections/Hero.jsx";
 import About from "./components/sections/About.jsx";
 import Engineer from "./components/sections/Engineer.jsx";
 import Oovra from "./components/sections/Oovra.jsx";
-import Photography from "./components/sections/Photography.jsx";
+import Viewfinder from "./components/sections/Viewfinder.jsx";
 import Services from "./components/sections/Services.jsx";
 import Contact from "./components/sections/Contact.jsx";
-import Footer from "./components/Footer.jsx";
-import Marquee from "./components/Marquee.jsx";
 
 export default function App() {
   return (
-    <>
+    <BugHuntProvider>
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
       <Cursor />
       <ScrollProgress />
       <Nav />
-      <main>
+      <main id="main">
         <Hero />
         <Marquee
           items={[
@@ -45,14 +49,15 @@ export default function App() {
             "Brand",
             "Editorial",
             "Now Booking",
-            "Available 2026",
+            "Idaho + Travel",
           ]}
         />
-        <Photography />
+        <Viewfinder />
         <Services />
         <Contact />
       </main>
       <Footer />
-    </>
+      <BugTracker />
+    </BugHuntProvider>
   );
 }
